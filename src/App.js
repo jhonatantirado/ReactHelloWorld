@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
+/* https://softwarecrafters.io/react/tutorial-react-js-introduccion/ */
+import React, { Component } from 'react';
 import './App.css';
+import UserList from './UserList';
+import UserForm from './UserForm';
+import logo from './logo.svg';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      users: [
+        {id: 1, name: "miguel", email: "test@miguelgomez.io"},
+        {id: 2, name: "test", email: "test@test.es"}
+      ]
+    };
+  }
+
+  handleOnAddUser (event) {
+    event.preventDefault();
+    let user = {
+      name: event.target.name.value,
+      email: event.target.email.value
+    };
+    this.setState({
+      users: this.state.users.concat([user])
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>Bienvenido a React</h2>
+        </div>
+        <div>
+          <p><strong>Añade usuarios</strong></p>
+          <UserForm onAddUser={this.handleOnAddUser.bind(this)} />
+          <UserList users={this.state.users}  />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
